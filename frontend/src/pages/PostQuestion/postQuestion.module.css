@@ -1,0 +1,166 @@
+.outer_container {
+  padding: 1rem;
+}
+
+/* Steps Section */
+.steps_container {
+  margin: 3% auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.lists {
+  width: auto;
+}
+
+.lists ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+/* Question Form Container */
+.question_container {
+  background-color: #ffffff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  width: 70%;
+  margin: 3rem auto;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(156, 156, 156);
+}
+
+/* Form Styling */
+.askform {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+::placeholder {
+  text-align: start;
+  color: #999;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid rgb(180, 180, 180);
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--primary-blue);
+}
+
+textarea {
+  height: 200px;
+  resize: vertical;
+}
+
+input {
+  height: 50px;
+}
+
+.askBtn {
+  border: none;
+  background-color: var(--primary-blue);
+  color: var(--white);
+  height: 3rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  padding: 0 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.askBtn:hover {
+  background-color: var(--accent);
+  transform: scale(1.02);
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .question_container {
+    width: 85%;
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  input,
+  textarea {
+    font-size: 0.95rem;
+    padding: 0.9rem;
+  }
+
+  .askBtn {
+    height: 2.8rem;
+    font-size: 0.95rem;
+  }
+
+  .steps_container {
+    font-size: 1.2rem;
+  }
+}
+
+/* For phones (≤ 576px) */
+@media (max-width: 576px) {
+  .question_container {
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  .outer_container {
+    padding: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  input,
+  textarea {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+
+  .askBtn {
+    height: 2.6rem;
+    font-size: 0.9rem;
+  }
+
+  .steps_container {
+    font-size: 1rem;
+  }
+}

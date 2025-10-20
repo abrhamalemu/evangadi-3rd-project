@@ -1,0 +1,141 @@
+.answer_container {
+  max-width: 900px;
+  margin: 80px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+  padding: 40px;
+  text-align: center;
+}
+
+.answer_title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #363A43;
+  margin-bottom: 15px;
+}
+
+.question_link {
+  display: inline-block;
+  margin-bottom: 25px;
+  color: #5d6066;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.question_link:hover {
+  text-decoration: underline;
+}
+
+.answer_textarea {
+  width: 100%;
+  height: 130px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  resize: none;
+  font-size: 16px;
+  margin-bottom: 20px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.answer_textarea:focus {
+  border-color: #007bff;
+}
+
+.submit_btn {
+  background-color: #516CF1;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  transition: background-color 0.3s;
+}
+
+.submit_btn:hover {
+  background-color: #274bcc;
+}
+
+/* Error textarea */
+.error {
+  border: 2px solid #ff4d4f; 
+  background-color: #fff1f0; 
+  outline: none; 
+}
+
+.error_text {
+  color: #ff4d4f; 
+  font-size: 0.9rem;
+  margin-top: 5px;
+  display: block;
+}
+
+/* shake animation textarea */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+.error.shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .answer_container {
+    max-width: 90%;
+    margin: 60px auto;
+    padding: 30px;
+  }
+
+  .answer_title {
+    font-size: 20px;
+  }
+
+  .question_link {
+    font-size: 14px;
+  }
+
+  .answer_textarea {
+    height: 120px;
+    font-size: 15px;
+  }
+
+  .submit_btn {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+}
+
+/* Mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .answer_container {
+    max-width: 95%;
+    margin: 40px auto;
+    padding: 25px 20px;
+  }
+
+  .answer_title {
+    font-size: 18px;
+  }
+
+  .answer_textarea {
+    height: 110px;
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .submit_btn {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 15px;
+  }
+}

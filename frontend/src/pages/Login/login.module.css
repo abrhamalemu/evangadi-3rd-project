@@ -1,0 +1,225 @@
+/* ===== Page Layout ===== */
+.auth_page {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  background: var(--bg);
+  font-family: var(--font);
+  /* min-height: 100vh; */
+}
+.bg_shape {
+  /* position: absolute;
+  left: -45%;
+  top: -15%;
+  width: 60vw;
+  height: 70vw;
+  background: radial-gradient(
+    ellipse at 40% 40%,
+    #dcdcf9 0%,
+    #ededfe 40%,
+    transparent 60%
+  );
+  border-radius: 50%;
+  z-index: 0; */
+}
+
+.auth_grid {
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  gap: 60px;
+  max-width: 1200px;
+  width: 100%;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+  /* align-items: start; */
+}
+
+/* ===== Card ===== */
+.auth_card {
+  background: var(--card);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 40px 36px;
+  /* border: 1px solid #f1f2f6; */
+}
+
+.auth_card h2 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.sub {
+  text-align: center;
+  margin-bottom: 22px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.sub a {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+.sub a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Form ===== */
+.form_row {
+  margin-bottom: 18px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.input {
+  width: 100%;
+  padding: 10px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+}
+.input::placeholder {
+  color: #9ca3af;
+}
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(240, 138, 29, 0.15);
+}
+
+.input_with_icon {
+  position: relative;
+  width: 100%;
+  /* display: flex; */
+  /* align-items: center; */
+}
+.input_with_icon .input {
+  /* width: 100%; */
+  /* padding-right: 45px; */
+  /* box-sizing: border-box; */
+}
+
+/* ===== Password eye toggle ===== */
+.icon_btn {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.icon_btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.icon_btn:hover {
+  color: var(--primary);
+}
+.eye_icon {
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+/* ===== Submit button ===== */
+.btn {
+  display: block;
+  width: 100%;
+  padding-block: 15px;
+  margin: 10px auto 0;
+  background:#4A4AFF;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn:hover {
+  background: #3939e7;
+}
+
+.alt_link {
+  text-align: center;
+  margin-top: 14px;
+}
+.alt_link a {
+  font-size: 14px;
+  color: var(--primary);
+  text-decoration: none;
+}
+.alt_link a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Info section ===== */
+.info small {
+  padding-top: 40px;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: var(--primary);
+  font-weight: 500;
+}
+.info h3 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 10px 0 18px;
+  color: var(--text);
+}
+.info p {
+  font-size: 15px;
+  color: #4b5563;
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+
+.cta {
+  display: inline-block;
+  padding: 10px 22px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.cta:hover {
+  background: var(--primary-dark);
+  color: #fff;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .auth_grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  .info {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
