@@ -36,7 +36,7 @@ app.use("/api/ai", authMiddlewares, aiRouter);
 const start = async () => {
   try {
     const result = await pool.query("SELECT 'databaseConnected' AS status");
-    console.log(result[0][0].status);
+    console.log(result.rows[0].status); // ✅ PostgreSQL correct access
 
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`✅ Server listening on port ${PORT}`);
