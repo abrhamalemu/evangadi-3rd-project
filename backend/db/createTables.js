@@ -49,65 +49,49 @@
 
 // createTables();
 
-require("dotenv").config();
-const { Pool } = require("pg");
+import pkg from "pg";
+const { Pool } = pkg;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }, // required for Render Postgres
+  ssl: { rejectUnauthorized: false },
 });
 
-async function createTables() {
+const createTables = async () => {
   try {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
-        userid SERIAL PRIMARY KEY,
-        username VARCHAR(20) UNIQUE,
-        firstname VARCHAR(20) NOT NULL,
-        lastname VARCHAR(20) NOT NULL,
-        email VARCHAR(40) UNIQUE NOT NULL,
-        password VARCHAR(100) NOT NULL
+        userid UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        username VARCHAR(100) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
-    `);
 
-    await pool.query(`
       CREATE TABLE IF NOT EXISTS questions (
-        id SERIAL PRIMARY KEY,
-        questionid UUID DEFAULT gen_random_uuid() UNIQUE,
-        userid INT NOT NULL REFERENCES users(userid),
-        title VARCHAR(200) NOT NULL,
+        questionid UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        userid UUID REFERENCES users(userid) ON DELETE CASCADE,
+        title VARCHAR(255) NOT NULL,
         description TEXT NOT NULL,
-        tag VARCHAR(255),
-        created_at TIMESTAMP DEFAULT NOW()
+        tag VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
-    `);
 
-    await pool.query(`
       CREATE TABLE IF NOT EXISTS answers (
-        answerid SERIAL PRIMARY KEY,
-        userid INT NOT NULL REFERENCES users(userid),
-        questionid UUID NOT NULL REFERENCES questions(questionid),
+        answerid UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        questionid UUID REFERENCES questions(questionid) ON DELETE CASCADE,
+        userid UUID REFERENCES users(userid) ON DELETE CASCADE,
         answer TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW()
-      );
-    `);
-
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS ai_questions (
-        id SERIAL PRIMARY KEY,
-        userid INT NOT NULL REFERENCES users(userid),
-        question TEXT NOT NULL,
-        answer TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW()
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
     console.log("✅ All tables created successfully!");
     process.exit(0);
-  } catch (err) {
-    console.error("❌ Error creating tables:", err);
+  } catch (error) {
+    console.error("❌ Error creating tables:", error);
     process.exit(1);
   }
-}
+};
 
 createTables();
