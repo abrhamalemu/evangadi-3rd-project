@@ -145,7 +145,7 @@
 
 // module.exports = { register, login, check };
 
-const db = require("../db/dbConfig");
+const pool = require("../db/dbConfig");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
@@ -162,13 +162,13 @@ const register = async (req, res) => {
 
   try {
     // Check for existing email
-    const existingUser = await db.query(
+    const existingUser = await pool.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
     );
 
     // Check for existing username
-    const existingUsername = await db.query(
+    const existingUsername = await pool.query(
       "SELECT * FROM users WHERE username = $1",
       [username]
     );
@@ -195,13 +195,13 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Insert new user
-    await db.query(
+    await pool.query(
       "INSERT INTO users (username, firstname, lastname, email, password) VALUES ($1, $2, $3, $4, $5)",
       [username, firstname, lastname, email, hashedPassword]
     );
 
     // Retrieve new user's ID
-    const userResult = await db.query(
+    const userResult = await pool.query(
       "SELECT userid FROM users WHERE email = $1",
       [email]
     );
@@ -235,7 +235,7 @@ const login = async (req, res) => {
   }
 
   try {
-    const result = await db.query("SELECT * FROM users WHERE email = $1", [
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
 

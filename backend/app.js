@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const db = require("./db/dbConfig");
+// const db = require("./db/dbConfig");
+
+const pool = require("./db/dbConfig");
 
 // Routers
 const userRouter = require("./routes/userRoute");
@@ -33,7 +35,7 @@ app.use("/api/ai", authMiddlewares, aiRouter);
 // ✅ Start server only after DB connection succeeds
 const start = async () => {
   try {
-    const result = await db.execute("SELECT 'databaseConnected' AS status");
+    const result = await pool.query("SELECT 'databaseConnected' AS status");
     console.log(result[0][0].status);
 
     app.listen(PORT, "0.0.0.0", () => {

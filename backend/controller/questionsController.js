@@ -342,7 +342,7 @@
 // };
 
 const crypto = require("crypto");
-const db = require("../db/dbConfig");
+const pool = require("../db/dbConfig");
 const { StatusCodes } = require("http-status-codes");
 
 // POST QUESTION
@@ -363,7 +363,7 @@ const postQuestion = async (req, res) => {
       INSERT INTO questions (userid, questionid, title, description, tag) 
       VALUES ($1, $2, $3, $4, $5)
     `;
-    await db.query(query, [
+    await pool.query(query, [
       userid,
       questionid,
       title,
@@ -405,7 +405,7 @@ const getAllQuestions = async (req, res) => {
       JOIN users u ON q.userid = u.userid
       ORDER BY q.id DESC
     `;
-    const result = await db.query(query);
+    const result = await pool.query(query);
     const questions = result.rows;
 
     if (questions.length === 0) {
@@ -459,7 +459,7 @@ const getSingleQuestion = async (req, res) => {
       JOIN users u ON q.userid = u.userid
       WHERE q.questionid = $1
     `;
-    const result = await db.query(query, [questionid]);
+    const result = await pool.query(query, [questionid]);
     const question = result.rows[0];
 
     if (!question) {
@@ -510,7 +510,7 @@ const updateQuestion = async (req, res) => {
     // Check ownership
     const checkQuery =
       "SELECT questionid, userid FROM questions WHERE questionid = $1";
-    const checkResult = await db.query(checkQuery, [questionid]);
+    const checkResult = await pool.query(checkQuery, [questionid]);
     const question = checkResult.rows[0];
 
     if (!question) {
@@ -552,7 +552,7 @@ const updateQuestion = async (req, res) => {
       WHERE questionid = $${idx++} AND userid = $${idx}
       RETURNING *
     `;
-    const result = await db.query(updateQuery, values);
+    const result = await pool.query(updateQuery, values);
 
     res.status(StatusCodes.OK).json({
       error: false,
@@ -584,7 +584,7 @@ const deleteQuestion = async (req, res) => {
     // Check ownership
     const checkQuery =
       "SELECT questionid, userid FROM questions WHERE questionid = $1";
-    const checkResult = await db.query(checkQuery, [questionid]);
+    const checkResult = await pool.query(checkQuery, [questionid]);
     const question = checkResult.rows[0];
 
     if (!question) {
@@ -603,7 +603,7 @@ const deleteQuestion = async (req, res) => {
 
     const deleteQuery =
       "DELETE FROM questions WHERE questionid = $1 AND userid = $2 RETURNING *";
-    const result = await db.query(deleteQuery, [questionid, userid]);
+    const result = await pool.query(deleteQuery, [questionid, userid]);
 
     res.status(StatusCodes.OK).json({
       error: false,

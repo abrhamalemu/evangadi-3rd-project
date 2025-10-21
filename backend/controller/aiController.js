@@ -50,7 +50,7 @@
 // module.exports = { askAI, getAIHistory };
 
 const { GoogleGenAI } = require("@google/genai");
-const db = require("../db/dbConfig.js");
+const pool = require("../db/dbConfig.js");
 
 const ai = new GoogleGenAI({});
 
@@ -76,7 +76,7 @@ const askAI = async (req, res) => {
     const answer = response.text;
 
     // Insert into PostgreSQL
-    await db.query(
+    await pool.query(
       "INSERT INTO ai_questions (userid, question, answer) VALUES ($1, $2, $3)",
       [userid, question, answer]
     );
@@ -96,7 +96,7 @@ const getAIHistory = async (req, res) => {
   const { userid } = req.user;
 
   try {
-    const result = await db.query(
+    const result = await pool.query(
       "SELECT * FROM ai_questions WHERE userid = $1 ORDER BY created_at DESC",
       [userid]
     );

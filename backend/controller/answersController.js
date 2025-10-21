@@ -70,7 +70,7 @@
 
 // module.exports = { postAnswer, getAnswer };
 
-const db = require("../db/dbConfig");
+const pool = require("../db/dbConfig");
 const { StatusCodes } = require("http-status-codes");
 
 // POST ANSWER
@@ -86,7 +86,7 @@ const postAnswer = async (req, res) => {
 
   try {
     // Check if question exists
-    const questionResult = await db.query(
+    const questionResult = await pool.query(
       "SELECT questionid FROM questions WHERE questionid = $1",
       [questionid]
     );
@@ -99,7 +99,7 @@ const postAnswer = async (req, res) => {
     }
 
     // Insert answer
-    const insertResult = await db.query(
+    const insertResult = await pool.query(
       "INSERT INTO answers(userid, questionid, answer) VALUES ($1, $2, $3) RETURNING answerid, answer, created_at",
       [userid, questionid, answer]
     );
@@ -123,7 +123,7 @@ const getAnswer = async (req, res) => {
 
   try {
     // Check if question exists
-    const questionResult = await db.query(
+    const questionResult = await pool.query(
       "SELECT questionid FROM questions WHERE questionid = $1",
       [questionid]
     );
@@ -137,7 +137,7 @@ const getAnswer = async (req, res) => {
     }
 
     // Fetch answers for the question
-    const answersResult = await db.query(
+    const answersResult = await pool.query(
       `SELECT a.answerid, a.answer, a.created_at, u.username
        FROM answers a
        JOIN users u ON u.userid = a.userid
