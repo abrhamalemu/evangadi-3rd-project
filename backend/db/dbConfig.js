@@ -10,16 +10,50 @@ require("dotenv").config();
 // });
 
 // module.exports = dbConnection.promise();
-const mysql = require("mysql2/promise");
+// //////////////////////////////////////////////
+// const mysql = require("mysql2/promise");
 
-const dbConnection = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+// const db = mysql.createPool({
+//   host: process.env.DB_HOST, // your Render DB host
+//   user: process.env.DB_USER, // your Render DB username
+//   password: process.env.DB_PASSWORD, // your Render DB password
+//   database: process.env.DB_NAME, // your Render DB name
+//   port: process.env.DB_PORT || 3306, // optional
+//   ssl: {
+//     rejectUnauthorized: true, // Render’s MySQL requires SSL
+//   },
+// });
+
+// (async () => {
+//   try {
+//     const connection = await db.getConnection();
+//     console.log("✅ Database connected successfully");
+//     connection.release();
+//   } catch (err) {
+//     console.error("❌ Database connection failed:", err.message);
+//   }
+// })();
+
+// module.exports = db;
+////////////////////////////////////////////////////
+const { Pool } = require("pg");
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }, // Render requires SSL
 });
 
-module.exports = dbConnection;
+pool
+  .connect()
+  .then(() => console.log("✅ PostgreSQL database connected successfully"))
+  .catch((err) => console.error("❌ Database connection failed:", err.message));
+
+module.exports = pool;
+
+/////////////////////////////////////////////////
+
+// Update your backend queries (if you were using MySQL)
+
+// If your previous code used db.execute(...) or db.query(...) from MySQL2, you’ll need to change them slightly for PostgreSQL.
+
+// Old MySQL style:
