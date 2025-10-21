@@ -49,12 +49,12 @@
 
 // createTables();
 
-const db = require("./dbConfig");
+const pool = require("./dbConfig");
 
 async function createTables() {
   try {
     // Users table
-    await db.query(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         userid SERIAL PRIMARY KEY,
         username VARCHAR(20) UNIQUE,
@@ -66,7 +66,7 @@ async function createTables() {
     `);
 
     // Questions table
-    await db.query(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS questions (
         id SERIAL PRIMARY KEY,
         questionid UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
@@ -79,7 +79,7 @@ async function createTables() {
     `);
 
     // Answers table
-    await db.query(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS answers (
         answerid SERIAL PRIMARY KEY,
         userid INT NOT NULL REFERENCES users(userid) ON DELETE CASCADE,
@@ -90,7 +90,7 @@ async function createTables() {
     `);
 
     // AI Questions table
-    await db.query(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS ai_questions (
         id SERIAL PRIMARY KEY,
         userid INT NOT NULL REFERENCES users(userid) ON DELETE CASCADE,
