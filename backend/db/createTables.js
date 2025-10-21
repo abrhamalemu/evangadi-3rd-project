@@ -54,7 +54,7 @@ const { Pool } = require("pg");
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: false }, // required for Render Postgres
 });
 
 async function createTables() {
@@ -62,42 +62,47 @@ async function createTables() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         userid SERIAL PRIMARY KEY,
-        username VARCHAR(50) UNIQUE NOT NULL,
-        firstname VARCHAR(50) NOT NULL,
-        lastname VARCHAR(50) NOT NULL,
-        email VARCHAR(100) UNIQUE NOT NULL,
-        password VARCHAR(200) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-
-      CREATE TABLE IF NOT EXISTS questions (
-        id SERIAL PRIMARY KEY,
-        questionid UUID DEFAULT gen_random_uuid() UNIQUE,
-        userid INTEGER REFERENCES users(userid) ON DELETE CASCADE,
-        title VARCHAR(255) NOT NULL,
-        description TEXT NOT NULL,
-        tag VARCHAR(100),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-
-      CREATE TABLE IF NOT EXISTS answers (
-        answerid SERIAL PRIMARY KEY,
-        userid INTEGER REFERENCES users(userid) ON DELETE CASCADE,
-        questionid UUID REFERENCES questions(questionid) ON DELETE CASCADE,
-        answer TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-
-      CREATE TABLE IF NOT EXISTS ai_questions (
-        id SERIAL PRIMARY KEY,
-        userid INTEGER REFERENCES users(userid) ON DELETE CASCADE,
-        question TEXT NOT NULL,
-        answer TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        username VARCHAR(20) UNIQUE,
+        firstname VARCHAR(20) NOT NULL,
+        lastname VARCHAR(20) NOT NULL,
+        email VARCHAR(40) UNIQUE NOT NULL,
+        password VARCHAR(100) NOT NULL
       );
     `);
 
-    console.log("✅ Tables created successfully!");
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS questions (
+        id SERIAL PRIMARY KEY,
+        questionid UUID DEFAULT gen_random_uuid() UNIQUE,
+        userid INT NOT NULL REFERENCES users(userid),
+        title VARCHAR(200) NOT NULL,
+        description TEXT NOT NULL,
+        tag VARCHAR(255),
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS answers (
+        answerid SERIAL PRIMARY KEY,
+        userid INT NOT NULL REFERENCES users(userid),
+        questionid UUID NOT NULL REFERENCES questions(questionid),
+        answer TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS ai_questions (
+        id SERIAL PRIMARY KEY,
+        userid INT NOT NULL REFERENCES users(userid),
+        question TEXT NOT NULL,
+        answer TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    console.log("✅ All tables created successfully!");
     process.exit(0);
   } catch (err) {
     console.error("❌ Error creating tables:", err);
