@@ -57,25 +57,25 @@ module.exports = pool;
 // If your previous code used db.execute(...) or db.query(...) from MySQL2, you’ll need to change them slightly for PostgreSQL.
 
 // Old MySQL style:
-const mysql2 = require("mysql2");
+// const mysql2 = require("mysql2");
 
-// Create connection pool
-const mysqlconnection = mysql2.createPool({
-  user: process.env.DB_USER,
-  database: process.env.DB_DATABASE,
-  host: process.env.DB_HOST,
-  password: process.env.DB_PASSWORD,
-  connectionLimit: process.env.DB_CONNECTION_LIMIT || 10,
-});
+// // Create connection pool
+// const mysqlconnection = mysql2.createPool({
+//   user: process.env.DB_USER,
+//   database: process.env.DB_DATABASE,
+//   host: process.env.DB_HOST,
+//   password: process.env.DB_PASSWORD,
+//   connectionLimit: process.env.DB_CONNECTION_LIMIT || 10,
+// });
 
-// Test the connection
+// // Test the connection
 
-mysqlconnection.getConnection((err, connection) => {
-  if (err) {
-    console.error("Database connection failed:", err.message);
-  } else {
-    console.log("The connection is successful");
-    connection.release(); // release back to pool
-  }
-});
-module.exports = mysqlconnection.promise();
+// mysqlconnection.getConnection((err, connection) => {
+//   if (err) {
+//     console.error("Database connection failed:", err.message);
+//   } else {
+//     console.log("The connection is successful");
+//     connection.release(); // release back to pool
+//   }
+// });
+// module.exports = mysqlconnection.promise();
